@@ -14,6 +14,9 @@ extension Response: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         originAddress = try container.decode(String.self, forKey: .originAddress)
         destinationAddress = try container.decode(String.self, forKey: .destinationAddress)
+        let textElements = try container.decode(ElementsText.self, forKey: .rows)
+        distance = textElements.distance
+        duration = textElements.duration
     }
 
 

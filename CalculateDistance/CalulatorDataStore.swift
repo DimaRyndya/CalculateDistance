@@ -5,9 +5,6 @@ final class CalculatorDataStore {
     let currentLocation = CLLocationCoordinate2D(latitude: 51.509865, longitude: -0.118092)
     var destinationLocation: CLLocationCoordinate2D?
 
-    var resp = Response()
-
-
     let APIKey = "AIzaSyCgJPLzCu6ZuGQWURT0L0BlxWTu6q0Ob9E"
     let baseURLString = "https://maps.googleapis.com/maps/api/distancematrix/json"
     var baseParams = [
@@ -52,15 +49,6 @@ final class CalculatorDataStore {
         }
         .resume()
     }
-
-//    enum CodingKeys: CodingKey {
-//      case response
-//    }
-//
-//    required init(from decoder: Decoder) throws {
-//      let container = try decoder.container(keyedBy: CodingKeys.self)
-//      response = try container.decode(Response.self, forKey: .response)
-//    }
 }
 
 
