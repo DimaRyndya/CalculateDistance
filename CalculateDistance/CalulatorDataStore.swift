@@ -37,8 +37,8 @@ final class CalculatorDataStore {
                     DispatchQueue.main.async {
                         print(decodedResponse.originAddress)
                         print(decodedResponse.destinationAddress)
-                        print(decodedResponse.distance)
-                        print(decodedResponse.duration)
+//                        print(decodedResponse.distance)
+//                        print(decodedResponse.duration)
                     }
                     return
                   }
