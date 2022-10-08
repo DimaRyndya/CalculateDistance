@@ -24,7 +24,6 @@ extension Response: Decodable {
         case originAddress = "origin_addresses"
         case destinationAddress = "destination_addresses"
         case rows
-        case status
     }
 }
 
@@ -47,24 +46,33 @@ extension ElementsText: Decodable {
         case distance, duration
     }
 
+    enum DistanceKeys: String, CodingKey {
+        case text
+    }
+
+    enum DurationKeys: String, CodingKey {
+        case text
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ElemKeys.self)
 //        let elementsContainer = try container.nestedContainer(keyedBy: ElemKeys.self, forKey: .rows)
         let valuesContainer = try container.nestedContainer(keyedBy: ValuesKeys.self, forKey: .elements)
 //        let distanceContainer = try valuesContainer.nestedContainer(keyedBy: ValueKeys.self, forKey: .distance)
-        let dist = try valuesContainer.decode(DistanceText.self, forKey: .distance)
+        let distanceContainer = try valuesContainer.nestedContainer(keyedBy: DistanceKeys.self, forKey: .distance)
+        distance = try distanceContainer.decode(String.self, forKey: .text)
 
-        distance = dist.text
-        let durationContainer = try valuesContainer.nestedContainer(keyedBy: ValuesKeys.self, forKey: .duration)
-        let dur = try durationContainer.decode(DurationText.self, forKey: .duration)
-        duration = dur.text
+//        distance = dist.text
+        let durationContainer = try valuesContainer.nestedContainer(keyedBy: DurationKeys.self, forKey: .duration)
+        duration = try durationContainer.decode(String.self, forKey: .text)
+//        duration = dur.text
     }
 }
 
-struct DistanceText: Codable {
-    var text: String
-}
-
-struct DurationText: Codable {
-    var text: String
-}
+//struct DistanceText: Codable {
+//    var text: String
+//}
+//
+//struct DurationText: Codable {
+//    var text: String
+//}
