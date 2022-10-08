@@ -34,9 +34,9 @@ struct ElementsText {
 
 extension ElementsText: Decodable {
 
-//    enum RowKeys: CodingKey {
-//        case rows
-//    }
+    enum RowKeys: CodingKey {
+        case rows
+    }
 
     enum ElemKeys: String, CodingKey {
         case elements
@@ -55,9 +55,9 @@ extension ElementsText: Decodable {
     }
 
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ElemKeys.self)
-//        let elementsContainer = try container.nestedContainer(keyedBy: ElemKeys.self, forKey: .rows)
-        let valuesContainer = try container.nestedContainer(keyedBy: ValuesKeys.self, forKey: .elements)
+        let container = try decoder.container(keyedBy: RowKeys.self)
+        let elementsContainer = try container.nestedContainer(keyedBy: ElemKeys.self, forKey: .rows)
+        let valuesContainer = try elementsContainer.nestedContainer(keyedBy: ValuesKeys.self, forKey: .elements)
 //        let distanceContainer = try valuesContainer.nestedContainer(keyedBy: ValueKeys.self, forKey: .distance)
         let distanceContainer = try valuesContainer.nestedContainer(keyedBy: DistanceKeys.self, forKey: .distance)
         distance = try distanceContainer.decode(String.self, forKey: .text)
