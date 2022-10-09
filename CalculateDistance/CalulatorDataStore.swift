@@ -35,8 +35,8 @@ final class CalculatorDataStore {
                 if let decodedResponse = try? JSONDecoder().decode(
                     Response.self, from: data) {
                     DispatchQueue.main.async {
-                        print(decodedResponse.originAddress)
-                        print(decodedResponse.destinationAddress)
+                        print("Из: \(decodedResponse.originAddress)")
+                        print("До: \(decodedResponse.destinationAddress)")
                     }
                 }
                 guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
@@ -46,8 +46,8 @@ final class CalculatorDataStore {
                         "\(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
-                print(respo.distance)
-                print(respo.duration)
+                print("Расстояние: \(respo.distance)")
+                print("Время для преодоления расстояния: \(respo.duration)")
             }
         }
         .resume()
