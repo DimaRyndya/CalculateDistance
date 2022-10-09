@@ -29,21 +29,26 @@ final class CalculatorDataStore {
         guard let contentsURL = urlComponents.url else { return }
 
         URLSession.shared.dataTask(with: contentsURL) { data, response, error in
-                   if let data = data,
-                         let response = response as? HTTPURLResponse {
-                         print(response.statusCode)
-                       guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                             let respo = Response(from: json) else {
-                           return
-                       }
-                       print(respo.originAddress)
-                       print(respo.destinationAddress)
-                       print(respo.distance)
-                       print(respo.duration)
+            if let data = data,
+               let response = response as? HTTPURLResponse {
+                print(response.statusCode)
+                if let decodedResponse = try? JSONDecoder().decode(
+                    Response.self, from: data) {
+                    DispatchQueue.main.async {
+                        print(decodedResponse.originAddress)
+                        print(decodedResponse.destinationAddress)
+                    }
                 }
-                print(
-                  "Contents fetch failed: " +
-                    "\(error?.localizedDescription ?? "Unknown error")")
+                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                      let respo = Response(from: json) else {
+                    print(
+                        "Contents fetch failed: " +
+                        "\(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                print(respo.distance)
+                print(respo.duration)
+            }
         }
         .resume()
     }
